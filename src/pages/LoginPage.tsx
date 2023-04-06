@@ -1,13 +1,28 @@
 /** @format */
-import { ChangeEvent, FormEvent, FormEventHandler, useState } from 'react';
+import { ChangeEvent, FormEvent, useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
+import { AuthContext } from '../auth/AuthContext';
+
 const LoginPage = () => {
+	const { login } = useContext(AuthContext);
+
 	const [form, setForm] = useState({
-		email: 'test2@test.com',
+		email: '',
 		password: '123456',
 		remembeme: true,
 	});
+
+	useEffect(() => {
+		const email = localStorage.getItem('email');
+		if (email)
+			setForm({
+				...form,
+				email,
+				remembeme: true,
+			});
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	const onChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = target;
@@ -26,7 +41,10 @@ const LoginPage = () => {
 
 	const onSubmit = (ev: FormEvent) => {
 		ev.preventDefault();
-		console.log(form);
+		form.remembeme ? localStorage.setItem('email', form.email) : localStorage.removeItem('email');
+		const { email, password } = form;
+
+		login!(email, password);
 	};
 
 	return (

@@ -1,6 +1,8 @@
 /** @format */
 import { createContext, ReactNode, useCallback, useState } from 'react';
 
+import { fetchWithoutToken } from '../helpers/fetch';
+
 interface InitialState {
 	checking?: boolean;
 	email?: string | null;
@@ -29,7 +31,15 @@ export const AuthContext = createContext<InitialState>(initialState);
 
 export const AuthProvider = ({ children }: Props) => {
 	const [auth, setAuth] = useState(initialState);
-	const login = (email: string, password: string) => {};
+	const login = async (email: string, password: string) => {
+		const response = await fetchWithoutToken({
+			endpoint: 'login',
+			data: { email, password },
+			method: 'POST',
+		});
+
+		console.log(response);
+	};
 	const register = (name: string, email: string, password: string) => {};
 	const checkToken = useCallback(() => {}, []);
 	const logout = () => {};
