@@ -82,6 +82,7 @@ export const AuthProvider = ({ children }: Props) => {
 	};
 
 	const checkToken = useCallback(() => {}, []);
+
 	const logout = () => {};
 
 	return (
