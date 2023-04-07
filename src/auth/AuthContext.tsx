@@ -1,7 +1,7 @@
 /** @format */
 import { createContext, ReactNode, useCallback, useState } from 'react';
 
-import { fetchWithoutToken } from '../helpers/fetch';
+import { fetchWithoutToken, fetchWithToken } from '../helpers/fetch';
 
 interface InitialState {
 	auth?: InitialState | null;
@@ -81,7 +81,50 @@ export const AuthProvider = ({ children }: Props) => {
 		return response.token ? true : false;
 	};
 
-	const checkToken = useCallback(() => {}, []);
+	const checkToken = useCallback(async () => {
+		const token = localStorage.getItem('token');
+
+		if (!token) {
+			setAuth({
+				checking: false,
+				email: null,
+				logged: false,
+				name: null,
+				uid: null,
+			});
+			return false;
+		}
+
+		const resp = await fetchWithToken({
+			endpoint: 'login/renew',
+		});
+
+		if (resp.token) {
+			localStorage.setItem('token', resp.token);
+			const {
+				user: { email, name, uid },
+			} = resp;
+			setAuth({
+				checking: false,
+				email: email,
+				logged: true,
+				name: name,
+				uid: uid,
+			});
+
+			return true;
+		} else {
+			setAuth({
+				checking: false,
+				email: null,
+				logged: false,
+				name: null,
+				uid: null,
+			});
+
+			return false;
+		}
+	}, []);
 
 	const logout = () => {};
 

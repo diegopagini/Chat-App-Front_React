@@ -1,10 +1,10 @@
 /** @format */
 import { useContext, useEffect } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 
 import { AuthContext } from '../auth/AuthContext';
-import { ChatPage } from '../pages/ChatPage';
-import { AuthRouter } from './AuthRouter';
+import { PrivateRoute } from './PrivateRoute';
+import { PublicRoute } from './PublicRoute';
 
 export const Router = () => {
 	const { auth, checkToken } = useContext(AuthContext);
@@ -13,21 +13,21 @@ export const Router = () => {
 		checkToken!();
 	}, [checkToken]);
 
-	if (auth?.checking) return <h1>Espere por favor</h1>;
+	if (auth?.checking) return <span style={{ textAlign: 'center' }}>Loading...</span>;
 
 	return (
 		<Routes>
 			<Route
-				path='/'
-				element={<ChatPage />}
+				path='/auth/*'
+				element={<PublicRoute isAuthenticated={auth!.logged} />}
 			/>
 			<Route
-				path='/auth/*'
-				element={<AuthRouter />}
+				path='/'
+				element={<PrivateRoute isAuthenticated={auth!.logged} />}
 			/>
 			<Route
 				path='*'
-				element={<ChatPage />}
+				element={<Navigate to='/' />}
 			/>
 		</Routes>
 	);
