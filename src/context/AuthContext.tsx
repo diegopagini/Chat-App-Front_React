@@ -87,10 +87,7 @@ export const AuthProvider = ({ children }: Props) => {
 		if (!token) {
 			setAuth({
 				checking: false,
-				email: null,
 				logged: false,
-				name: null,
-				uid: null,
 			});
 			return false;
 		}
@@ -116,17 +113,20 @@ export const AuthProvider = ({ children }: Props) => {
 		} else {
 			setAuth({
 				checking: false,
-				email: null,
 				logged: false,
-				name: null,
-				uid: null,
 			});
 
 			return false;
 		}
 	}, []);
 
-	const logout = () => {};
+	const logout = () => {
+		localStorage.removeItem('token');
+		setAuth({
+			checking: false,
+			logged: false,
+		});
+	};
 
 	return (
 		<AuthContext.Provider

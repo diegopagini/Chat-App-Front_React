@@ -6,7 +6,10 @@ export const SidebarChatItem = () => {
 			<div className='chat_people'>
 				<div className='chat_img'>
 					<img
-						src='https://ptetutorials.com/images/user-profile.png'
+						style={{
+							borderRadius: '100%',
+						}}
+						src='https://static.vecteezy.com/system/resources/previews/000/439/863/original/vector-users-icon.jpg'
 						alt='sunil'
 					/>
 				</div>

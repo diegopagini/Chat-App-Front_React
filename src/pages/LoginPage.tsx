@@ -10,7 +10,7 @@ const LoginPage = () => {
 
 	const [form, setForm] = useState({
 		email: '',
-		password: '123456',
+		password: '',
 		remembeme: true,
 	});
 
