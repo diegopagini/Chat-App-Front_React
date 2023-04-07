@@ -11,7 +11,7 @@ interface InitialState {
 	name?: string | null;
 	uid?: string | null;
 	login?: (email: string, password: string) => Promise<boolean>;
-	register?: (name: string, email: string, password: string) => void;
+	register?: (name: string, email: string, password: string) => Promise<boolean>;
 	checkToken?: () => void;
 	logout?: () => void;
 }
@@ -56,7 +56,31 @@ export const AuthProvider = ({ children }: Props) => {
 
 		return response.token ? true : false;
 	};
-	const register = (name: string, email: string, password: string) => {};
+
+	const register = async (name: string, email: string, password: string) => {
+		const response = await fetchWithoutToken({
+			endpoint: 'login/new',
+			data: { name, email, password },
+			method: 'POST',
+		});
+
+		if (response.token) {
+			localStorage.setItem('token', response.token);
+			const {
+				user: { email, name, uid },
+			} = response;
+			setAuth({
+				checking: false,
+				email: email,
+				logged: true,
+				name: name,
+				uid: uid,
+			});
+		}
+
+		return response.token ? true : false;
+	};
+
 	const checkToken = useCallback(() => {}, []);
 	const logout = () => {};
 
