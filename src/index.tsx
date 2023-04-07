@@ -6,6 +6,7 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 
 import { AuthProvider } from './context/AuthContext';
+import { SocketProvider } from './context/SocketContext';
 import { Router } from './router/AppRouter';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
@@ -14,7 +15,9 @@ root.render(
 	<React.StrictMode>
 		<BrowserRouter>
 			<AuthProvider>
-				<Router />
+				<SocketProvider>
+					<Router />
+				</SocketProvider>
 			</AuthProvider>
 		</BrowserRouter>
 	</React.StrictMode>
