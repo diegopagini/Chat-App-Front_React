@@ -49,6 +49,8 @@ const LoginPage = () => {
 		if (!ok) Swal.fire('Error', 'Verifique el usuario y/o contraseña', 'error');
 	};
 
+	const formValid = () => (form.email.length > 0 && form.password.length > 0 ? true : false);
+
 	return (
 		<form
 			className='login100-form validate-form flex-sb flex-w'
@@ -107,7 +109,13 @@ const LoginPage = () => {
 			</div>
 
 			<div className='container-login100-form-btn m-t-17'>
-				<button className='login100-form-btn'>Ingresar</button>
+				<button
+					disabled={!formValid()}
+					type='submit'
+					className='login100-form-btn'
+				>
+					Ingresar
+				</button>
 			</div>
 		</form>
 	);
