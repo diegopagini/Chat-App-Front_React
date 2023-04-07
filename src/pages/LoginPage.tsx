@@ -3,7 +3,7 @@ import { ChangeEvent, FormEvent, useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
-import { AuthContext } from '../auth/AuthContext';
+import { AuthContext } from '../context/AuthContext';
 
 const LoginPage = () => {
 	const { login } = useContext(AuthContext);
