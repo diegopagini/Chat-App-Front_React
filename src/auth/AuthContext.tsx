@@ -4,12 +4,13 @@ import { createContext, ReactNode, useCallback, useState } from 'react';
 import { fetchWithoutToken } from '../helpers/fetch';
 
 interface InitialState {
+	auth?: InitialState | null;
 	checking?: boolean;
 	email?: string | null;
 	logged?: boolean;
 	name?: string | null;
 	uid?: string | null;
-	login?: (email: string, password: string) => void;
+	login?: (email: string, password: string) => Promise<boolean>;
 	register?: (name: string, email: string, password: string) => void;
 	checkToken?: () => void;
 	logout?: () => void;
@@ -20,6 +21,7 @@ interface Props {
 }
 
 const initialState: InitialState = {
+	auth: null,
 	checking: true,
 	email: null,
 	logged: false,
@@ -38,7 +40,21 @@ export const AuthProvider = ({ children }: Props) => {
 			method: 'POST',
 		});
 
-		console.log(response);
+		if (response.token) {
+			localStorage.setItem('token', response.token);
+			const {
+				user: { email, name, uid },
+			} = response;
+			setAuth({
+				checking: false,
+				email: email,
+				logged: true,
+				name: name,
+				uid: uid,
+			});
+		}
+
+		return response.token ? true : false;
 	};
 	const register = (name: string, email: string, password: string) => {};
 	const checkToken = useCallback(() => {}, []);
@@ -47,6 +63,7 @@ export const AuthProvider = ({ children }: Props) => {
 	return (
 		<AuthContext.Provider
 			value={{
+				auth,
 				login,
 				register,
 				checkToken,

@@ -1,6 +1,7 @@
 /** @format */
 import { ChangeEvent, FormEvent, useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 import { AuthContext } from '../auth/AuthContext';
 
@@ -16,12 +17,12 @@ const LoginPage = () => {
 	useEffect(() => {
 		const email = localStorage.getItem('email');
 		if (email)
-			setForm({
+			/** To avoid the problem with the dependencies of useEffect: (form) => ({}) */
+			setForm((form) => ({
 				...form,
 				email,
 				remembeme: true,
-			});
-		// eslint-disable-next-line react-hooks/exhaustive-deps
+			}));
 	}, []);
 
 	const onChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
@@ -39,12 +40,13 @@ const LoginPage = () => {
 		});
 	};
 
-	const onSubmit = (ev: FormEvent) => {
+	const onSubmit = async (ev: FormEvent) => {
 		ev.preventDefault();
 		form.remembeme ? localStorage.setItem('email', form.email) : localStorage.removeItem('email');
 		const { email, password } = form;
 
-		login!(email, password);
+		const ok = await login!(email, password);
+		if (!ok) Swal.fire('Error', 'Verifique el usuario y/o contraseña', 'error');
 	};
 
 	return (
