@@ -8,6 +8,11 @@ interface FetchProps {
 	method?: Method;
 }
 
+/**
+ *
+ * @param {FetchProps} { endpoint, data, method = 'GET' }
+ * @returns Promise<any>
+ */
 export const fetchWithoutToken = async ({ endpoint, data, method = 'GET' }: FetchProps) => {
 	const url = `${process.env.REACT_APP_API_URL}/${endpoint}`;
 
@@ -24,6 +29,11 @@ export const fetchWithoutToken = async ({ endpoint, data, method = 'GET' }: Fetc
 	).json();
 };
 
+/**
+ *
+ * @param {FetchProps} { endpoint, data, method = 'GET' }
+ * @returns Promise<any>
+ */
 export const fetchWithToken = async ({ endpoint, data, method = 'GET' }: FetchProps) => {
 	const url = `${process.env.REACT_APP_API_URL}/${endpoint}`;
 	const token = localStorage.getItem('token') || '';
