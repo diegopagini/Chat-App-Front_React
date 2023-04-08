@@ -8,10 +8,15 @@ export const useSocket = (serverPath: string) => {
 
 	/** useCallback so that when it is part of the dependencies of the useEffect it is not called again */
 	const connectSocket = useCallback(() => {
+		const token = localStorage.getItem('token') || '';
+
 		const tempSocket = io(serverPath, {
 			autoConnect: true,
 			forceNew: true,
 			transports: ['websocket'],
+			query: {
+				'x-token': token,
+			},
 		});
 		setSocket(tempSocket);
 	}, [serverPath]);
