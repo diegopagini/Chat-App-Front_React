@@ -1,9 +1,16 @@
 /** @format */
 import { createContext, ReactNode, useReducer } from 'react';
 
+import { User } from '../../interfaces/user.interface';
 import { chatReducer } from './chatReducer';
 
-export const ChatContext = createContext({});
+export const ChatContext = createContext<{
+	state: any;
+	dispatch: any;
+}>({
+	state: null,
+	dispatch: null,
+});
 
 interface Props {
 	children: ReactNode;
@@ -13,7 +20,7 @@ export interface InitialState {
 	activeChat: null;
 	messages: string[];
 	uid: string;
-	users: any[];
+	users: User[];
 }
 
 const initialState: InitialState = {
