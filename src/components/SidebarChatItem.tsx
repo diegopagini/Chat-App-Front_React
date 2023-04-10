@@ -1,6 +1,11 @@
 /** @format */
+import { User } from '../interfaces/user.interface';
 
-export const SidebarChatItem = () => {
+interface Props {
+	user: User;
+}
+
+export const SidebarChatItem = ({ user }: Props) => {
 	return (
 		<div className='chat_list active_chat'>
 			<div className='chat_people'>
@@ -14,9 +19,12 @@ export const SidebarChatItem = () => {
 					/>
 				</div>
 				<div className='chat_ib'>
-					<h5>Some random name</h5>
-					<span className='text-success'>Online</span>
-					<span className='text-danger'>Offline</span>
+					<h5>{user.name}</h5>
+					{user.online ? (
+						<span className='text-success'>Online</span>
+					) : (
+						<span className='text-danger'>Offline</span>
+					)}
 				</div>
 			</div>
 		</div>
