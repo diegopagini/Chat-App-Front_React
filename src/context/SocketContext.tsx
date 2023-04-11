@@ -2,6 +2,7 @@
 import { createContext, ReactNode, useContext, useEffect } from 'react';
 
 import { useSocket } from '../hooks/useSocket';
+import { Message } from '../interfaces/message.interface';
 import { User } from '../interfaces/user.interface';
 import { types } from '../types/types';
 import { AuthContext } from './AuthContext';
@@ -41,6 +42,16 @@ export const SocketProvider = ({ children }: Props) => {
 			dispatch({
 				type: types.loadedUsers,
 				payload: users,
+			});
+		});
+	}, [socket, dispatch]);
+
+	/** Listen for messages one to one */
+	useEffect(() => {
+		socket?.on('personal-message', (message: Message) => {
+			dispatch({
+				type: types.newMessage,
+				payload: message,
 			});
 		});
 	}, [socket, dispatch]);

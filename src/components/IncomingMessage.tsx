@@ -1,6 +1,10 @@
 /** @format */
+interface Props {
+	message: string;
+	createdAt: string;
+}
 
-export const IncomingMessage = () => {
+export const IncomingMessage = ({ message, createdAt }: Props) => {
 	return (
 		<div className='incoming_msg'>
 			<div className='incoming_msg_img'>
@@ -11,8 +15,8 @@ export const IncomingMessage = () => {
 			</div>
 			<div className='received_msg'>
 				<div className='received_withd_msg'>
-					<p>Test which is a new approach to have all solutions</p>
-					<span className='time_date'> 11:01 AM | June 9</span>
+					<p>{message}</p>
+					<span className='time_date'>{createdAt}</span>
 				</div>
 			</div>
 		</div>
