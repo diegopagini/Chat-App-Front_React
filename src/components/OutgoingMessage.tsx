@@ -1,7 +1,10 @@
 /** @format */
+import { getHourAndMonth } from '../helpers/date';
+
+/** @format */
 interface Props {
 	message: string;
-	createdAt: string;
+	createdAt: Date;
 }
 
 export const OutgoingMessage = ({ message, createdAt }: Props) => {
@@ -9,7 +12,7 @@ export const OutgoingMessage = ({ message, createdAt }: Props) => {
 		<div className='outgoing_msg'>
 			<div className='sent_msg'>
 				<p>{message}</p>
-				<span className='time_date'>{createdAt}</span>
+				<span className='time_date'>{getHourAndMonth(createdAt)}</span>
 			</div>
 		</div>
 	);

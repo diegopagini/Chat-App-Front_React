@@ -2,9 +2,9 @@
 
 export interface Message {
 	_id: string;
-	createdAt: string;
+	createdAt: Date;
 	from: string;
 	message: string;
 	to: string;
-	updatedAt: string;
+	updatedAt: Date;
 }
