@@ -1,10 +1,18 @@
 /** @format */
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useContext, useState } from 'react';
+
+import { AuthContext } from '../context/AuthContext';
+import { ChatContext } from '../context/chat/ChatContext';
+import { SocketContext } from '../context/SocketContext';
 
 /** @format */
 
 export const SendMessage = () => {
 	const [message, setMessage] = useState('');
+	const { socket } = useContext(SocketContext);
+	const { auth } = useContext(AuthContext);
+	const { state } = useContext(ChatContext);
+
 	const onChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
 		setMessage(target.value);
 	};
@@ -12,6 +20,12 @@ export const SendMessage = () => {
 	const onSubmit = (ev: FormEvent) => {
 		ev.preventDefault();
 		if (message.length === 0) return null;
+
+		socket.emit('personal-message', {
+			from: auth?.uid,
+			to: state.activeChat,
+			message,
+		});
 
 		setMessage('');
 	};

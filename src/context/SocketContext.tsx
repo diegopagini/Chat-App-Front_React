@@ -7,7 +7,10 @@ import { types } from '../types/types';
 import { AuthContext } from './AuthContext';
 import { ChatContext } from './chat/ChatContext';
 
-export const SocketContext = createContext({});
+export const SocketContext = createContext<{ socket: any; online: boolean }>({
+	socket: null,
+	online: false,
+});
 
 interface Props {
 	children: ReactNode;
