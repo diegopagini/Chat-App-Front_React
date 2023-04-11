@@ -2,6 +2,8 @@
 import { useContext } from 'react';
 
 import { ChatContext } from '../context/chat/ChatContext';
+import { fetchWithToken } from '../helpers/fetch';
+import { scrollToBottom } from '../helpers/scroll';
 import { User } from '../interfaces/user.interface';
 import { types } from '../types/types';
 
@@ -11,11 +13,24 @@ interface Props {
 
 export const SidebarChatItem = ({ user }: Props) => {
 	const { dispatch, state } = useContext(ChatContext);
-	const onClick = () => {
+
+	const onClick = async () => {
 		dispatch({
 			type: types.activeChat,
 			payload: user.uid,
 		});
+
+		/** Load messages from chat */
+		const response = await fetchWithToken({
+			endpoint: `messages/${user.uid}`,
+		});
+
+		dispatch({
+			type: types.loadChat,
+			payload: response.messages,
+		});
+
+		scrollToBottom('messages');
 	};
 
 	return (

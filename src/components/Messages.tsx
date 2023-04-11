@@ -14,7 +14,10 @@ export const Messages = () => {
 
 	return (
 		<div className='mesgs'>
-			<div className='msg_history'>
+			<div
+				id='messages'
+				className='msg_history'
+			>
 				{state.messages.map((msg: Message) =>
 					msg.to === auth?.uid ? (
 						<IncomingMessage

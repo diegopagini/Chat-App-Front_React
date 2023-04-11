@@ -1,6 +1,7 @@
 /** @format */
 import { createContext, ReactNode, useContext, useEffect } from 'react';
 
+import { scrollToBottomAnimated } from '../helpers/scroll';
 import { useSocket } from '../hooks/useSocket';
 import { Message } from '../interfaces/message.interface';
 import { User } from '../interfaces/user.interface';
@@ -53,6 +54,8 @@ export const SocketProvider = ({ children }: Props) => {
 				type: types.newMessage,
 				payload: message,
 			});
+
+			scrollToBottomAnimated('messages');
 		});
 	}, [socket, dispatch]);
 
