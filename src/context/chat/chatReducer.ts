@@ -37,6 +37,15 @@ export const chatReducer = (state: InitialState, action: Action) => {
 				messages: [...action.payload],
 			};
 
+		case types.exit: {
+			return {
+				activeChat: null,
+				messages: [],
+				uid: null,
+				users: [],
+			};
+		}
+
 		default:
 			return state;
 	}

@@ -1,7 +1,9 @@
 /** @format */
-import { createContext, ReactNode, useCallback, useState } from 'react';
+import { createContext, ReactNode, useCallback, useContext, useState } from 'react';
 
 import { fetchWithoutToken, fetchWithToken } from '../helpers/fetch';
+import { types } from '../types/types';
+import { ChatContext } from './chat/ChatContext';
 
 interface InitialState {
 	auth?: InitialState | null;
@@ -33,6 +35,8 @@ export const AuthContext = createContext<InitialState>(initialState);
 
 export const AuthProvider = ({ children }: Props) => {
 	const [auth, setAuth] = useState(initialState);
+	const { dispatch } = useContext(ChatContext);
+
 	const login = async (email: string, password: string) => {
 		const response = await fetchWithoutToken({
 			endpoint: 'login',
@@ -125,6 +129,10 @@ export const AuthProvider = ({ children }: Props) => {
 		setAuth({
 			checking: false,
 			logged: false,
+		});
+
+		dispatch({
+			type: types.exit,
 		});
 	};
 

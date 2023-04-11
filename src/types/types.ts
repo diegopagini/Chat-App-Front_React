@@ -5,4 +5,5 @@ export const types = {
 	activeChat: '[Chat] Active chat',
 	newMessage: '[Chat] New Message',
 	loadChat: '[Chat] Load messages',
+	exit: '[Chat] Exit app',
 };
